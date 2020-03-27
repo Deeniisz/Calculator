@@ -1,18 +1,34 @@
 import java.rmi.Naming;
-import java.rmi.Remote;
-import java.rmi.registry.LocateRegistry;
 
-public class CalculatorServer implements Remote{
-    public CalculatorServer(){
-        try{
-            Calculator c = new CalculatorImpl();
-            LocateRegistry.createRegistry(1020);
-            Naming.rebind("//localhost:1020/CalculatorService", c);
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+public class CalculatorClient {
+    public static void main(String[] args) {
+        try {
+            Calculator c = (Calculator) Naming
+                    .lookup("//localhost:1020/CalculatorService");
+            System.out.println(c.sub(4, 3));
+            System.out.println(c.add(4, 5));
+            System.out.println(c.mul(3, 6));
+            System.out.println(c.div(9, 3));
+            
+            
+            String opcao[] = {"+", "-",
+            		"*"
+            		, "/"};
+
+            		int operacao =
+
+            		JOptionPane.showOptionDialog(null, "Escolha uma das operacoes", "Tipo de operacao",
+
+            		0,
+
+            		JOptionPane.INFORMATION_MESSAGE, null, opcao,
+            		opcao[0]);
+            
+            
         } catch (Exception e){
-            System.out.println("Trouble: " + e);
+            System.out.println(e);
         }
-    }
-    public static void main(String args[]){
-        new CalculatorServer();
     }
 }
